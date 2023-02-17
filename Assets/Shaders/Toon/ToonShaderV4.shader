@@ -153,49 +153,8 @@ Shader "Singularity/ToonShaderV4"
             #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             
             //----------------------------------------------------------------------HELPER FUNCTIONS------------------------------------------------------------------------------
-            static float2 sobelSamplePoints[9] = {
-                        float2(-1,1),float2(0,1),float2(1,1),
-                        float2(-1,0),float2(0,0),float2(1,0),
-                        float2(-1,-1),float2(0,-1),float2(1,-1)};
-
-                        static float sobelXKernel[9] = {
-                        1,0,-1,
-                        2,0,-2,
-                        1,0,-1
-                        };
-
-                        static float sobelYKernel[9] = {
-                        1,2,1,
-                        0,0,0,
-                        -1,-2,-1
-                        };
-
-            //Calculate the Sobel Operator of the shadowmap
-            float ShadowSobelOperator(float4 shadowCoord, float dilation)
-            {
-                //get shadowmap texel size
-                ShadowSamplingData shadowSamplingData = GetMainLightShadowSamplingData();
-                float4 shadowMap_TexelSize = shadowSamplingData.shadowmapSize;
-
-                //initialize results
-                float sobelX = 0;
-                float sobelY = 0;
-
-                //loop over sample points
-                [unroll] for (int i =0; i< 9; i++)
-                {
-                    //sample shadowmap
-                    float shadowImage = MainLightRealtimeShadow(float4(shadowCoord.xy + sobelSamplePoints[i] * dilation * shadowMap_TexelSize.xy, shadowCoord.zw));
-
-                    //sum the convolution values
-                    sobelX += shadowImage * sobelXKernel[i];
-                    sobelY += shadowImage * sobelYKernel[i];
-                }
-                //Return the magnitude
-                return sqrt(sobelX * sobelX + sobelY*sobelY);
-            }
             
-
+	    
             //----------------------------------------------------------------------VERTEX SHADER---------------------------------------------------------------------------------
             Varyings vertShader(Attributes IN)
             {
@@ -400,8 +359,6 @@ Shader "Singularity/ToonShaderV4"
                 return 0;
             }
  
-            // Again, using this means we also need _BaseMap, _BaseColor and _Cutoff shader properties
-            // Also including them in cbuffer, except _BaseMap as it's a texture.
  
             ENDHLSL
             }
