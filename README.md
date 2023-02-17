@@ -1,6 +1,8 @@
 # Shaders
 
-A place for my shader projects
+Shaders for my porfolio
+
+
 
 Tutorials used (to be updated)
 Snow : https://nedmakesgames.medium.com/mastering-tessellation-shaders-and-their-many-uses-in-unity-9caeb760150e
