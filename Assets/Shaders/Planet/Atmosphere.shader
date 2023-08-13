@@ -21,21 +21,11 @@ Shader "Singularity/Atmosphere"
 
 
         CBUFFER_START(UnityPerMaterial)
-        float4  _MainTex_ST;
-        float4 _FlowMap_ST;
         float4 _GradientMap_ST;
-        float _Tiling;
-        float _Offset;
         float4 _Color;
-        float4 _ShadowColor;
         float   _Radius;
-        float _RimAmount;
-        float _RimThreshold;
         float _PlanetSize;
-        float _AtmosphereHeight;
 
-        TEXTURE2D(_MainTex);     SAMPLER(sampler_MainTex);
-        TEXTURE2D(_FlowMap);     SAMPLER(sampler_FlowMap);
         TEXTURE2D(_GradientMap); SAMPLER(sampler_GradientMap);
         CBUFFER_END
 
@@ -152,54 +142,7 @@ Shader "Singularity/Atmosphere"
 
            ENDHLSL
         }
-        /*Pass 
-        {
-            Name "DepthOnly"
-            Tags { "LightMode"="DepthOnly" }
- 
-            ZWrite On
-            ColorMask 0
- 
-            HLSLPROGRAM
-            // Required to compile gles 2.0 with standard srp library
-            #pragma prefer_hlslcc gles
-            #pragma exclude_renderers d3d11_9x gles
-            //#pragma target 4.5
- 
-            // Material Keywords
-            #pragma shader_feature _ALPHATEST_ON
-            #pragma shader_feature _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
- 
-            // GPU Instancing
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ DOTS_INSTANCING_ON
-             
-            #pragma vertex DepthOnlyVertex
-            #pragma fragment DepthOnlyFragment
-             
-            Varyings DepthOnlyVertex(Attributes input)
-            {
-                Varyings output = (Varyings)0;
-                UNITY_SETUP_INSTANCE_ID(input);
-                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-
-                output.uv = TRANSFORM_TEX(input.uv, _MainTex);
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-                return output;
-            }
-
-            half4 DepthOnlyFragment(Varyings input) : SV_TARGET
-            {
-                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-
-                return 0;
-            }
- 
-            // Again, using this means we also need _BaseMap, _BaseColor and _Cutoff shader properties
-            // Also including them in cbuffer, except _BaseMap as it's a texture.
- 
-            ENDHLSL
-        }*/
+       
     }
 }
 
